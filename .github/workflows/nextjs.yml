@@ -71,6 +71,8 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
+      - name: Set NODE_OPTIONS environment variable
+        run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
       - name: Install dependencies with npm
         run: npm install
       - name: Install dependencies
