@@ -75,12 +75,12 @@ jobs:
         run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
       - name: Install dependencies with npm
         run: npm install
-      - name: Update Browserslist database
-        run: npx browserslist@latest --update-db
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }} npm update
+      - name: Update Browserslist database
+        run: npx browserslist@latest --update-db
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: npx next build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
