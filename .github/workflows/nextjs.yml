@@ -73,12 +73,23 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Set NODE_OPTIONS environment variable
         run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
+      - name: Verify NODE_OPTIONS
+        run: echo $NODE_OPTIONS
       - name: Install dependencies with npm
         run: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }} npm update
       - name: Update Browserslist database
         run: npx browserslist@latest --update-db
+      - name: Clean and install dependencies
+        run: |
+          rm -rf node_modules
+          rm -f package-lock.json
+          npm install
       - name: Build with Next.js
         run: npx next build
       - name: Upload artifact
