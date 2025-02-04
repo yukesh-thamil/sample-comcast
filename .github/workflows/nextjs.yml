@@ -91,7 +91,9 @@ jobs:
           rm -f package-lock.json
           npm install
       - name: Build with Next.js
-        run: npx next build
+        run: |
+          export NODE_OPTIONS=--openssl-legacy-provider
+          npx next build --verbose
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
